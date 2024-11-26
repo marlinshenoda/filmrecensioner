@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import GlobalStyle from './GlobalStyle';
+import GlobalStyle from './GlobalStyle';  // justera importen om den är annorlunda
 import Header from './components/Header';
-import MovieList from './components/MovieList';
 import MovieSearch from './components/MovieSearch';
-function App() {
+import MovieList from './components/MovieList';
+
+const App = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
       const apiKey = process.env.REACT_APP_RAPID_API_KEY;
-      const url =`https:youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=30&regionCode=US&videoCategoryId=0&key=${apiKey}`
-      //`https://www.youtube.com/watch?v=${apiKey}`
-      // `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+      const url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&maxResults=30&regionCode=US&videoCategoryId=0`;
+
       try {
-        const response = await fetch(url);
-        const data = await response.json().then(data => console.log(data));;
-        setMovies(data.results);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': apiKey, // Din RapidAPI-nyckel här
+            'X-RapidAPI-Host': 'youtube.googleapis.com'  // Rätt host för API:t
+          }
+        });
+        const data = await response.json();
+        console.log(data);
+        setMovies(data.items);  // YouTube API ger en lista av videos i "items"
       } catch (error) {
         console.error('Error fetching movies:', error);
       }
     };
 
     fetchMovies();
-  }, []);
+  }, []);  // Effekt körs en gång vid komponentens första render
 
   return (
     <>
@@ -35,3 +42,4 @@ function App() {
 }
 
 export default App;
+

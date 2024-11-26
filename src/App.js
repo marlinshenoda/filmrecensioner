@@ -9,7 +9,8 @@ function App() {
   useEffect(() => {
     const fetchMovies = async () => {
       const apiKey = process.env.REACT_APP_RAPID_API_KEY;
-      const url =`https://www.youtube.com/watch?v=${apiKey}`
+      const url =`https:youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=30&regionCode=US&videoCategoryId=0&key=[apiKey]`
+      //`https://www.youtube.com/watch?v=${apiKey}`
       // `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
       try {
         const response = await fetch(url);

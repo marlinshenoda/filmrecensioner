@@ -31,12 +31,16 @@ const MovieOverview = styled.p`
 function MovieList({ movies }) {
   return (
     <MovieContainer>
-      {movies.map((movie) => (
-        <MovieCard key={movie.id}>
-          <MovieTitle>{movie.title}</MovieTitle>
-          <MovieOverview>{movie.overview}</MovieOverview>
-        </MovieCard>
-      ))}
+      {movies && movies.length > 0 ? (
+        movies.map((movie) => (
+          <MovieCard key={movie.id}>
+            <MovieTitle>{movie.snippet.title}</MovieTitle>
+            <MovieOverview>{movie.snippet.description}</MovieOverview>
+          </MovieCard>
+        ))
+      ) : (
+        <p>No movies found.</p> // Handle the case when there are no movies
+      )}
     </MovieContainer>
   );
 }

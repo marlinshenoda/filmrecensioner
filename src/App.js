@@ -3,33 +3,36 @@ import GlobalStyle from './GlobalStyle';  // justera importen om den är annorlu
 import Header from './components/Header';
 import MovieSearch from './components/MovieSearch';
 import MovieList from './components/MovieList';
+import axios from 'axios';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const apiKey = process.env.REACT_APP_RAPID_API_KEY;
-      const url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&maxResults=30&regionCode=US&videoCategoryId=0`;
-
+      const BASE_URL = 'https://youtube-v31.p.rapidapi.com';
+      
+      const options = {
+        params: {
+          maxResults: 50,
+        },
+        headers: {
+          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY, // Hämta API-nyckeln från miljövariabler
+          'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com',
+        },
+      };
+      
       try {
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'X-RapidAPI-Key': apiKey, // Din RapidAPI-nyckel här
-            'X-RapidAPI-Host': 'youtube.googleapis.com'  // Rätt host för API:t
-          }
-        });
-        const data = await response.json();
-        console.log(data);
-        setMovies(data.items);  // YouTube API ger en lista av videos i "items"
+        const response = await axios.get(`${BASE_URL}/videos`, options);
+        console.log(response.data);
+        setMovies(response.data.items); // Uppdatera movies med data från API:et
       } catch (error) {
         console.error('Error fetching movies:', error);
       }
     };
 
-    fetchMovies();
-  }, []);  // Effekt körs en gång vid komponentens första render
+    fetchMovies(); // Kör fetchMovies vid första renderingen av komponenten
+  }, []); // Den här effektfunktionen körs bara en gång vid initial render
 
   return (
     <>
@@ -42,4 +45,3 @@ const App = () => {
 }
 
 export default App;
-

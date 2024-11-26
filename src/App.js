@@ -9,7 +9,7 @@ const App = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const BASE_URL = 'https://youtube-v31.p.rapidapi.com';
+    const BASE_URL = 'https://youtube-v31.p.rapidapi.com/channels?part=snippet%2Cstatistics&id=UCBVjMGOIkavEAhyqpxJ73Dw';
 
     const options = {
       params: {

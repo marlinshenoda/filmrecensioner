@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const apiKey = process.env.REACT_APP_TMDB_API_KEY;
+      const apiKey = process.env.REACT_APP_RAPID_API_KEY;
       const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
       try {
         const response = await fetch(url);
